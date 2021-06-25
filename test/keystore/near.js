@@ -21,7 +21,7 @@ async function getSeed(keyStore, password) {
   return seed
 }
 
-async function signTx(seed, path, account) {
+async function signTx(seed, path) {
   try {
     const response = await near.KEYSTORE.signTx( 
       seed,
@@ -30,7 +30,7 @@ async function signTx(seed, path, account) {
         sender: "kms.testnet",
         receiver: "receiver.testnet",
         networkId: "testnet",
-        amount: "1.5",
+        amount: "1.3",
       }
     );
 
@@ -44,11 +44,6 @@ async function signTx(seed, path, account) {
 async function run() {
   const PASSWORD = MNEMONIC.password;
   const keyStore = await createKeyStore(PASSWORD);
-  const account = await getAccount(
-    { type: TYPE, account: 0, index: INDEX }, 
-    keyStore, 
-    PASSWORD 
-  );
   const SEED = await getSeed(
     keyStore,
     PASSWORD
@@ -56,8 +51,7 @@ async function run() {
 
   await signTx(
     SEED, 
-    { type: TYPE, account: 0, index: INDEX },
-    account 
+    { type: TYPE, account: 0, index: INDEX }
   );
 }
 
