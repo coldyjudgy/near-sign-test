@@ -63,8 +63,13 @@ export class KEYSTORE {
         data: signature.signature 
         })
     });
+    const signedSerializedTx = signedTransaction.encode();
+    const result = await provider.sendJsonRpc(
+      'broadcast_tx_commit', 
+      [Buffer.from(signedSerializedTx).toString('base64')]
+    );
 
-    return signedTransaction
+    return result.transaction
   }
 
   /*
