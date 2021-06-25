@@ -131,7 +131,7 @@ async function run() {
   for (let i = 0; i < chains.length; i += 1) {
     // eslint-disable-next-line no-await-in-loop
     const temp = await getAccountFromKeyStore(
-      { type: chains[i][1], account: 0, index: 0 },
+      { type: chains[i][1], account: 0, index: 1 },
       keyStore,
       PASSWORD
     );

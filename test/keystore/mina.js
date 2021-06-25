@@ -29,7 +29,7 @@ async function getDerivePath(path, keyStore, password) {
 
 async function signTx(path, keyStore, password, account) {
   try {
-    const isPayment = false;
+    const isPayment = true;
     const response = mina.KEYSTORE.signTx(
       await getDerivePath(path, keyStore, password),
       {
