@@ -80,10 +80,15 @@ export class KEYSTORE {
     );
     */
 
+    if (rawTx.isStake) {
+      return {
+        ...signedTransaction,
+        verifyStakeSignature: verify,
+      }
+    }
     return {
       ...signedTransaction,
       verifySignature: verify,
-      StakeSignature: rawTx.isStake,
     };
   }
 
