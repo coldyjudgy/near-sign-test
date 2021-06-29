@@ -68,13 +68,23 @@ export class KEYSTORE {
         data: signature.signature 
         })
     });
+ 
+    // verify signature!!! returns boolean 테스트완료 잘됨!!@
+    const verify = keyPair.verify(serializedTxHash, signature.signature);
+
+    /*
     const signedSerializedTx = signedTransaction.encode();
     const result = await provider.sendJsonRpc(
       'broadcast_tx_commit', 
       [Buffer.from(signedSerializedTx).toString('base64')]
     );
+    */
 
-    return result.transaction
+    return {
+      ...signedTransaction,
+      verifySignature: verify,
+      StakeSignature: rawTx.isStake,
+    };
   }
 
   /*

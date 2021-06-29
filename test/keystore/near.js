@@ -37,6 +37,7 @@ async function signTx(seed, path) {
     );
 
     console.log("response - ", response);
+    //console.log("StakeSignature - ", isStake);
 
   } catch (error) {
     console.log(error);
@@ -55,6 +56,11 @@ async function run() {
     SEED, 
     { type: TYPE, account: 0, index: INDEX }
   );
+  /*  
+  const message = near.KEYSTORE.signTx.serializedTxHash;
+  const signature = near.KEYSTORE.signTx.signature.signature;
+  await near.KEYSTORE.keyPair.verify(message, signature);
+  */
 }
 
 run();
