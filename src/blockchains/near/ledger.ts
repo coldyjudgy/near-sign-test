@@ -5,6 +5,7 @@ import { BIP44, RawTx } from "../../types";
 //import bs58 from "bs58"
 //const sha256 = require('js-sha256');
 //const BN = require("bn.js");
+//const sha256 = require('js-sha256');
 
 const App = require("near-ledger-js");
 const nearAPI = require("near-api-js");
@@ -64,11 +65,25 @@ export class LEDGER {
       actions, 
       recentBlockHash);
     
-    const result = await client.sign(
+    const response = await client.sign(
       transaction.encode(), `44'/${path.type}'/${path.account}'/0'/${path.index}'`
     );
-      
-    return result
+  
+    const signedTransaction = new nearAPI.transactions.SignedTransaction({
+      transaction,
+      signature: new nearAPI.transactions.Signature({ 
+      keyType: transaction.publicKey.keyType, 
+      data: response
+      })
+    });
+  
+  const signedSerializedTx = signedTransaction.encode();
+  const result = await provider.sendJsonRpc(
+    'broadcast_tx_commit', 
+    [Buffer.from(signedSerializedTx).toString('base64')]
+  );
+  
+  return result.transaction
   }
 
   /*

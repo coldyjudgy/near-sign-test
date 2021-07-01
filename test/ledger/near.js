@@ -12,7 +12,7 @@ async function signTx(transport, type, index) {
     transport,
   });
   try {
-    const isStake = true;
+    const isStake = false;
     const response = await kms.signTx(
       {
         type,
@@ -23,7 +23,7 @@ async function signTx(transport, type, index) {
         sender: "kms.testnet",
         receiver: "receiver.testnet",
         networkId: "testnet",
-        amount: "1.2",
+        amount: "1.1",
         isStake,
       }
     );
