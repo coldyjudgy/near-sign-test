@@ -87,6 +87,10 @@ export async function signTxFromLedger(
         const response = await cosmos.signTx(path, transport, rawTx);
         return { ...response };
       }
+      case COIN.NEAR: {
+        const response = await near.signTx(path, transport, rawTx);
+        return { ...response };
+      }
       // add blockchains....
       // blockchains
       default:

@@ -5,12 +5,14 @@ const { getAccount } = require("./_getAccount");
 const TYPE = COIN.NEAR;
 const INDEX = 1;
 
+
 async function signTx(transport, type, index) {
   const kms = new KMS({
     keyStore: null,
     transport,
   });
   try {
+    const isStake = true;
     const response = await kms.signTx(
       {
         type,
@@ -21,7 +23,8 @@ async function signTx(transport, type, index) {
         sender: "kms.testnet",
         receiver: "receiver.testnet",
         networkId: "testnet",
-        amount: "1.3",
+        amount: "1.2",
+        isStake,
       }
     );
     // eslint-disable-next-line no-console
