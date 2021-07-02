@@ -45,7 +45,8 @@ export class LEDGER {
 
     var actions = [nearAPI.transactions.transfer(amount)];
     if (rawTx.isStake) {
-      actions = [nearAPI.transactions.stake(amount, publicKey)];
+      const validator = await nearAPI.utils.PublicKey.fromString(rawTx.validator);
+      actions = [nearAPI.transactions.stake(amount, validator)];
     }
 
     const provider = new nearAPI.providers

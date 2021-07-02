@@ -1,7 +1,9 @@
+//working
 const { JWE } = require("node-jose");
 const { mnemonicToSeedSync } = require("bip39");
 const { COIN } = require("../../lib");
 const near = require("../../lib/blockchains/near/keyStore");
+//const BN = require("bn.js");
 
 const {
   createKeyStore,
@@ -29,15 +31,15 @@ async function signTx(seed, path) {
       path,
       {
         sender: "kms.testnet",
-        receiver: "kms.testnet",
+        receiver: "kms.testnet", 
+        validator: "ed25519:DiogP36wBXKFpFeqirrxN8G2Mq9vnakgBvgnHdL9CcN3", 
         networkId: "testnet",
-        amount: "1.1",
+        amount: "31",// new BN("99999999999", 10).toString();
         isStake,
       }
     );
 
     console.log("response - ", response);
-    //console.log("StakeSignature - ", isStake);
 
   } catch (error) {
     console.log(error);
@@ -56,11 +58,6 @@ async function run() {
     SEED, 
     { type: TYPE, account: 0, index: INDEX }
   );
-  /*  
-  const message = near.KEYSTORE.signTx.serializedTxHash;
-  const signature = near.KEYSTORE.signTx.signature.signature;
-  await near.KEYSTORE.keyPair.verify(message, signature);
-  */
 }
 
 run();

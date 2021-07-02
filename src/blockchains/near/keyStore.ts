@@ -1,3 +1,4 @@
+//working
 import { encode } from "bs58";
 import nacl from "tweetnacl";
 import { derivePath } from "near-hd-key";
@@ -40,10 +41,15 @@ export class KEYSTORE {
         `access_key/${sender}/${publicKey.toString()}`, ''
     );
     const nonce = ++accessKey.nonce;
+    
+
+
 
     var actions = [nearAPI.transactions.transfer(amount)];
     if (rawTx.isStake) {
-      actions = [nearAPI.transactions.stake(amount, publicKey)];
+     // add validator
+      const validator = await nearAPI.utils.PublicKey.fromString(rawTx.validator);
+      actions = [nearAPI.transactions.stake(amount, validator)];
     }
     
     const recentBlockHash = nearAPI.utils.serialize.base_decode(accessKey.block_hash);
@@ -69,32 +75,31 @@ export class KEYSTORE {
         })
     });
  
-    // verify signature!!! returns boolean 테스트완료 잘됨!!@
     const verify = keyPair.verify(serializedTxHash, signature.signature);
 
-    /*
+   
     const signedSerializedTx = signedTransaction.encode();
     const result = await provider.sendJsonRpc(
       'broadcast_tx_commit', 
       [Buffer.from(signedSerializedTx).toString('base64')]
     );
-    */
+  
 
     if (rawTx.isStake) {
       return {
-        ...signedTransaction,
+        ...result,
         verifyStakeSignature: verify,
       }
     }
     return {
-      ...signedTransaction,
+      ...result,
       verifySignature: verify,
     };
   }
 
   /*
   export signMessage(node: BIP32Interface, msg: string) {
-    // ...
+    // ...signatureMessage = new nearAPI.signer.signMessage()
   }
   */
 }
